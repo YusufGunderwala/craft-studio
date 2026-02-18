@@ -1,0 +1,3449 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Pinyon+Script&display=swap');
+
+/* --- Variables & Theme --- */
+:root {
+    /* --- Base Styles --- */
+    --color-bg: #F8F5F2;
+    /* Soft Off-White */
+    --color-text: #2C2C2C;
+    /* Dark Charcoal */
+    --color-text-light: #6d6d6d;
+    --color-primary: #bfa588;
+    /* Gold/Bronze */
+    --color-accent: #3e574b;
+    /* Deep Green */
+    --color-accent-soft: #d0e0d8;
+    /* Soft Green */
+    --color-peach: #edcdc2;
+    /* Pastel Peach */
+    --color-white: #FFFFFF;
+
+    /* Typography */
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'Outfit', sans-serif;
+    --font-script: 'Pinyon Script', cursive;
+    /* For signatures/accents */
+
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 2rem;
+    --spacing-lg: 4rem;
+    --spacing-xl: 6rem;
+
+    /* Radius */
+    --radius-sm: 8px;
+    --radius-md: 16px;
+    --radius-lg: 32px;
+
+    /* Shadows */
+    --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-hover: 0 15px 40px rgba(0, 0, 0, 0.08);
+
+    /* Navbar Height */
+    --nav-height: 115px;
+}
+
+@media (max-width: 768px) {
+    :root {
+        --nav-height: 65px;
+    }
+}
+
+/* --- Reset & Global --- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: auto;
+    /* Handled by Lenis */
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Global Smooth Transitions */
+section,
+.card,
+.product-card,
+.occasion-card,
+.testimonial-card,
+.icon-box,
+.btn,
+img {
+    will-change: auto;
+    /* Fix 1: Removed global dangerous will-change */
+}
+
+/* Smooth image loading */
+img {
+    transition: opacity 0.3s ease;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: 600;
+    line-height: 1.2;
+    color: #3e574b;
+    /* Brand Green */
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+
+
+ul {
+    list-style: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* --- Utilities --- */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-muted {
+    color: var(--color-text-light);
+}
+
+.highlight {
+    color: var(--color-primary);
+    font-style: italic;
+}
+
+.btn {
+    display: flex !important;
+    /* Force Flex */
+    align-items: center;
+    justify-content: center;
+    /* Center Content */
+    gap: 0.5rem;
+    padding: 0 2rem;
+    /* Horizontal padding, height handles vertical */
+    height: 54px !important;
+    /* Rigid Height */
+    line-height: 1;
+    /* Reset line height */
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    box-sizing: border-box;
+    /* Ensure border doesn't add size */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    /* Alignment Safety */
+    margin: 0 !important;
+    white-space: nowrap;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: #2C2C2C;
+    /* Dark gray */
+    color: var(--color-white);
+    box-shadow: 0 4px 15px rgba(44, 44, 44, 0.2);
+    border: 1px solid transparent;
+}
+
+.btn-primary:hover {
+    background-color: #1a1a1a;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(44, 44, 44, 0.3);
+}
+
+.btn-secondary {
+    background-color: var(--color-white);
+    /* White */
+    color: #2C2C2C;
+    /* Dark text */
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.btn-secondary:hover {
+    background-color: #f8f8f8;
+    border-color: rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* --- Navigation --- */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: background-color 0.4s ease, padding 0.4s ease, box-shadow 0.4s ease;
+    background-color: transparent;
+    /* Default Transparent */
+    color: #3e574b;
+}
+
+.navbar.scrolled {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 1rem 5%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+.logo-link {
+    display: block;
+}
+
+.logo-img {
+    height: 75px;
+    /* Increased from 50px */
+    width: auto;
+    object-fit: contain;
+}
+
+/* Footer Logo logic handled in footer section */
+
+.logo .dot {
+    color: var(--color-primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+.nav-links a:hover {
+    opacity: 1;
+    color: var(--color-primary);
+}
+
+.nav-links .btn-nav {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid currentColor;
+    border-radius: 30px;
+    /* transition handled by global a */
+}
+
+.nav-links .btn-nav:hover {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: white;
+}
+
+/* ===================================================================
+   HERO STORY — "The Gift Unwrapping" Scroll-Driven Experience
+   =================================================================== */
+
+/* Golden Particle Canvas (Background) */
+.global-particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    /* Behind content but in front of body bg */
+    pointer-events: none;
+}
+
+/* Container */
+.hero-story {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1613;
+    /* FAILSAFE: Default to dark */
+}
+
+/* Warm background — revealed when dark panels split */
+.hs-warm {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #FFF8EE 0%, var(--color-bg) 60%, #FFF0E0 100%);
+    z-index: 0;
+    opacity: 0;
+    /* Hidden initially, revealed by JS */
+}
+
+/* Dark panels — wrapping paper that splits open */
+.hs-dark-panel {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50.5%;
+    /* Tiny overlap to prevent sub-pixel gap at seam */
+    z-index: 2;
+}
+
+.hs-dark-left {
+    left: 0;
+    background: linear-gradient(135deg, #1a1613 0%, #252019 50%, #1e1a16 100%);
+}
+
+.hs-dark-right {
+    right: 0;
+    background: linear-gradient(-135deg, #1a1613 0%, #252019 50%, #1e1a16 100%);
+}
+
+/* Golden seam where panels meet */
+.hs-dark-left::after,
+.hs-dark-right::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom,
+            transparent 10%,
+            rgba(212, 175, 55, 0.2) 30%,
+            rgba(245, 215, 142, 0.5) 50%,
+            rgba(212, 175, 55, 0.2) 70%,
+            transparent 90%);
+}
+
+.hs-dark-left::after {
+    right: 0;
+}
+
+.hs-dark-right::after {
+    left: 0;
+}
+
+/* Subtle paper texture on dark panels */
+.hs-dark-left::before,
+.hs-dark-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M0 0h20v20H0zM20 20h20v20H20z'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+/* Golden Thread SVG */
+.hs-thread {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+}
+
+.hs-thread-path {
+    stroke-dasharray: 2200;
+    stroke-dashoffset: 2200;
+    filter: drop-shadow(0 0 6px rgba(212, 175, 55, 0.4));
+}
+
+/* Floating craft elements */
+.hs-elements {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.hs-el {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: rgba(191, 165, 136, 0.1);
+    border: 1px solid rgba(191, 165, 136, 0.25);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #f5d78e;
+    font-size: 1.3rem;
+    opacity: 0;
+    transform: scale(0);
+}
+
+/* Position elements in their final visible spots */
+.hs-el-1 {
+    top: 18%;
+    left: 12%;
+}
+
+.hs-el-2 {
+    top: 22%;
+    right: 14%;
+}
+
+.hs-el-3 {
+    top: 55%;
+    left: 8%;
+}
+
+.hs-el-4 {
+    top: 65%;
+    right: 10%;
+}
+
+.hs-el-5 {
+    top: 40%;
+    left: 18%;
+}
+
+.hs-el-6 {
+    top: 35%;
+    right: 20%;
+}
+
+/* Text phases (centered overlays) */
+.hs-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    gap: 0.2em;
+}
+
+.hs-line {
+    display: block;
+    font-family: var(--font-heading);
+    font-size: clamp(2.8rem, 7vw, 6.5rem);
+    font-weight: 600;
+    color: #f5d78e;
+    line-height: 1.15;
+    text-align: center;
+    text-shadow: 0 4px 30px rgba(212, 175, 55, 0.2);
+}
+
+/* Phase 2 hidden initially */
+.hs-text-2 {
+    opacity: 0;
+}
+
+/* Brand reveal (logo + script) */
+.hs-brand {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0;
+    gap: 0.5rem;
+}
+
+.hs-brand-logo {
+    height: clamp(60px, 12vw, 100px);
+    width: auto;
+}
+
+.hs-brand-script {
+    font-family: var(--font-script);
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    color: var(--color-primary);
+    opacity: 0;
+}
+
+/* Final CTA */
+.hs-cta {
+    position: absolute;
+    bottom: 18%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.hs-cta.active {
+    pointer-events: auto;
+}
+
+/* Scroll indicator */
+.hs-scroll-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    color: rgba(245, 215, 142, 0.5);
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+
+.hs-scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, rgba(245, 215, 142, 0.5), transparent);
+    animation: hsScrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes hsScrollPulse {
+
+    0%,
+    100% {
+        transform: scaleY(1);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scaleY(1.4);
+        opacity: 1;
+    }
+}
+
+/* Golden particles */
+.hs-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.hs-particle {
+    position: absolute;
+    border-radius: 50%;
+    background: radial-gradient(circle, #f5d78e, #d4af37);
+    opacity: 0;
+    animation: hsParticleFloat var(--dur, 8s) var(--delay, 0s) ease-in-out infinite;
+}
+
+@keyframes hsParticleFloat {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+    }
+
+    15% {
+        transform: translateY(-20px) scale(1);
+        opacity: 0.7;
+    }
+
+    85% {
+        transform: translateY(-120px) scale(0.6);
+        opacity: 0.2;
+    }
+}
+
+/* ===================================================================
+   NAVBAR — Dark Hero Mode
+   =================================================================== */
+.logo-img {
+    transition: filter 0.5s ease;
+}
+
+body.hero-dark .navbar {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    color: #fff;
+}
+
+body.hero-dark .navbar .logo-img {
+    filter: brightness(0) invert(1);
+}
+
+body.hero-dark .nav-links a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+body.hero-dark .nav-links a:hover {
+    color: #f5d78e;
+}
+
+body.hero-dark .nav-links .btn-nav {
+    border-color: rgba(255, 255, 255, 0.35);
+    color: rgba(255, 255, 255, 0.9);
+}
+
+body.hero-dark .nav-links .btn-nav:hover {
+    background: #f5d78e;
+    border-color: #f5d78e;
+    color: #1a1613;
+}
+
+body.hero-dark .navbar.scrolled {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+}
+
+/* ===================================================================
+   HERO STORY — Responsive
+   =================================================================== */
+@media (max-width: 768px) {
+    .hs-el {
+        width: 45px;
+        height: 45px;
+        font-size: 1rem;
+    }
+
+    .hs-scroll-hint {
+        font-size: 0.65rem;
+    }
+
+    .hs-scroll-line {
+        height: 35px;
+    }
+
+    .hs-brand-script {
+        font-size: 1.8rem;
+    }
+
+    .hs-cta {
+        bottom: 12%;
+    }
+}
+
+
+
+/* --- Section Global --- */
+.section {
+    padding: var(--spacing-xl) 0;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    /* Reduced from var(--spacing-lg) which was 4rem */
+}
+
+.section-tag {
+    display: inline-block;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--color-primary);
+    /* Gold/Bronze text */
+    margin-bottom: 1rem;
+    padding: 0.6rem 2rem;
+    border-radius: 50px;
+    /* Pill shape */
+
+    /* Frosted Glass Effect */
+    background: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(246, 220, 212, 0.6);
+    /* Soft peach border */
+    box-shadow: 0 4px 15px rgba(212, 163, 115, 0.05);
+    /* Very subtle glow */
+}
+
+.section-header h2 {
+    font-size: 3rem;
+    color: #2C2C2C;
+}
+
+/* --- Occasion Grid --- */
+.occasion-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 2rem;
+    padding: 2rem 5% 4rem 5%;
+    /* Horizontal padding for start/end + bottom space */
+    scrollbar-width: none;
+    /* simple hide for Firefox */
+    -ms-overflow-style: none;
+    /* Internet Explorer 10+ */
+    scroll-behavior: smooth;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    /* Fade edges */
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.occasion-card {
+    flex: 0 0 auto;
+    width: 300px;
+    /* Fixed width */
+    height: 450px;
+    /* Taller, premium look */
+    scroll-snap-align: center;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: flex-end;
+    /* Align text to bottom */
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.4s ease,
+        box-shadow 0.4s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+}
+
+.occasion-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+    z-index: 1;
+}
+
+.occasion-card:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-hover);
+}
+
+.occasion-card:hover::after {
+    opacity: 0.6;
+}
+
+.card-inner {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+    transform: translateY(0);
+    transition: transform 0.4s ease;
+    color: white;
+}
+
+.occasion-card:hover .card-inner {
+    transform: translateY(-10px);
+}
+
+.card-inner h3 {
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+    color: white;
+    /* Force white text */
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.card-inner p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 300;
+}
+
+/* --- Floating Whatsapp --- */
+.floating-whatsapp {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background-color: #25D366;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    transition: transform 0.3s ease;
+    /* Ensure icon stays on top */
+}
+
+.floating-whatsapp i {
+    z-index: 2;
+    position: relative;
+}
+
+/* Scroll Ring */
+.scroll-ring {
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    width: 70px;
+    /* Slightly larger than button */
+    height: 70px;
+    transform: rotate(-90deg);
+    /* Start from top */
+    pointer-events: none;
+    overflow: visible;
+}
+
+.ring-bg {
+    stroke: rgba(255, 255, 255, 0.2);
+}
+
+.ring-progress {
+    stroke: #ffffff;
+    /* White or Gold? White contrasts best on Green button, Gold if outside. */
+    /* Let's try Gold ring outside the button logic, but here it's inside/around. 
+       If button is green, white ring is good. 
+       Wait, I set viewBox="0 0 60 60" in HTML but width 70 in CSS? 
+       Scaling might be weird. Let's fix.
+       The SVG is 60x60 in HTML. I should stick to that matching parent or slightly larger.
+       Let's keep CSS simple. width 100% height 100% of parent?
+       Parent is 60x60. SVG is 60x60.
+       Line is 3px. It might clip if I don't adjust padding or size.
+       Let's Resize button to accommodate or put ring *around* it.
+       If I want ring *around* the green circle, SVG needs to be larger than 60px.
+       Let's set SVG to 70x70 and center it.
+    */
+    stroke: #bfa588;
+    /* Gold Ring */
+    stroke-dasharray: 176;
+    /* 2 * pi * 28 */
+    stroke-dashoffset: 176;
+    transition: stroke-dashoffset 0.1s linear;
+    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.3));
+}
+
+.floating-whatsapp:hover .scroll-ring {
+    transform: rotate(-90deg) scale(1.1);
+}
+
+.floating-whatsapp:hover {
+    transform: scale(1.1) rotate(10deg);
+}
+
+/* --- Animation Keyframes --- */
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(-50%) translateY(-20px);
+    }
+
+    50% {
+        transform: translateY(-50%) translateY(20px);
+    }
+}
+
+/* Fix 3: Removed duplicate .hero-btns block */
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+
+/* --- Gallery Section --- */
+.gallery-section {
+    /* Gradient blend from marquee section above */
+    background: linear-gradient(180deg, #faf8f5 0%, var(--color-bg) 15%, var(--color-bg) 100%);
+    padding: 6rem 0;
+}
+
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0.8rem 1.8rem;
+    border-radius: 50px;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--color-text-light);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+}
+
+.filter-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 163, 115, 0.15);
+    color: var(--color-primary);
+}
+
+.filter-btn.active {
+    background: var(--color-primary);
+    color: white;
+    box-shadow: 0 5px 20px rgba(212, 163, 115, 0.3);
+}
+
+/* Masonry Layout */
+.gallery-grid {
+    columns: 250px 4;
+    column-gap: 1.5rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.gallery-item {
+    break-inside: avoid;
+    margin-bottom: 1.5rem;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    cursor: zoom-in;
+    transform: translateZ(0);
+    /* Fix for webkit clipping */
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.gallery-item:hover {
+    transform: translateY(-5px);
+    z-index: 2;
+    /* Bring to front slightly */
+}
+
+/* Aspect Ratios for visual interest */
+.gallery-img-wrapper {
+    width: 100%;
+    height: 100%;
+    background-size: cover !important;
+    background-position: center !important;
+    transition: transform 0.8s ease;
+}
+
+.gallery-item:hover .gallery-img-wrapper {
+    transform: scale(1.05);
+    /* Subtle zoom */
+}
+
+/* Default height placeholder if no image content yet */
+.gallery-item {
+    height: auto;
+}
+
+.gallery-item:nth-child(odd) .gallery-img-wrapper {
+    height: 350px;
+}
+
+.gallery-item:nth-child(even) .gallery-img-wrapper {
+    height: 280px;
+}
+
+.gallery-item:nth-child(3n) .gallery-img-wrapper {
+    height: 400px;
+}
+
+.gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7) 0%, transparent 50%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-overlay span {
+    font-family: var(--font-heading);
+    color: white;
+    font-size: 1.2rem;
+    transform: translateY(20px);
+    transition: transform 0.4s ease;
+}
+
+.gallery-item:hover .gallery-overlay span {
+    transform: translateY(0);
+}
+
+/* --- Modal --- */
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    visibility: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 900px;
+    background: white;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transform: scale(0.9);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal.active .modal-content {
+    transform: scale(1);
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    z-index: 10;
+    font-size: 1.2rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: row;
+    min-height: 500px;
+}
+
+.modal-image-col {
+    flex: 1.5;
+    background-size: cover;
+    background-position: center;
+}
+
+.modal-info-col {
+    flex: 1;
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.modal-cat {
+    color: var(--color-primary);
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.modal-title {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.modal-desc {
+    color: var(--color-text-light);
+    margin-bottom: 2rem;
+}
+
+
+
+/* --- Featured Marquee --- */
+.featured-section {
+    overflow: hidden;
+    padding: var(--spacing-lg) 0;
+}
+
+.marquee-wrapper {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+}
+
+.marquee-track {
+    display: flex;
+    gap: 4rem;
+    align-items: center;
+    white-space: nowrap;
+    animation: scroll 20s linear infinite;
+    padding: 2rem 0;
+}
+
+.marquee-item {
+    font-size: 4rem;
+    font-family: var(--font-heading);
+    color: rgba(0, 0, 0, 0.1);
+    font-weight: 700;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.marquee-item span {
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.marquee-item.image {
+    width: 200px;
+    height: 120px;
+    flex-shrink: 0;
+}
+
+.placeholder-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 100px;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* Add subtle pattern to placeholder images so they're not completely empty */
+.placeholder-img::before {
+    content: '';
+    position: absolute;
+    inset: 20%;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.05) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* --- Custom Order Section --- */
+.custom-section {
+    padding: 6rem 0;
+    /* Blend from Off-White to Soft Green (Smoother, earlier blend) */
+    background: linear-gradient(to bottom, var(--color-bg) 0%, var(--color-bg) 30%, var(--color-accent-soft) 100%);
+    position: relative;
+}
+
+/* Journey Path SVG */
+.journey-path {
+    position: absolute;
+    top: 45px;
+    /* Center of 90px icon box */
+    left: 5%;
+    width: 90%;
+    height: 10px;
+    z-index: 0;
+    overflow: visible;
+}
+
+#journeyLine {
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    /* Hidden initially */
+    filter: drop-shadow(0 2px 4px rgba(191, 165, 136, 0.3));
+}
+
+/* Floating Morph Icon Container */
+.morph-container {
+    position: sticky;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 120px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 2rem auto;
+}
+
+.morph-icon {
+    width: 60px;
+    height: 60px;
+}
+
+#morphPath {
+    transition: d 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.process-steps {
+    display: flex;
+    justify-content: space-between;
+    /* Remove gap to allow precise line calculation */
+    gap: 0;
+    position: relative;
+    margin-top: 3rem;
+    padding: 0 1rem;
+}
+
+/* Remove global line */
+.process-steps::before {
+    display: none;
+}
+
+.process-card {
+    flex: 1;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    padding: 0 1rem;
+    /* Spacing handled by padding now */
+}
+
+/* Individual connecting line - HIDDEN (replaced by SVG journey path) */
+.process-card::after {
+    display: none;
+}
+
+/* Hide line on the last step */
+.process-card:last-child::after {
+    display: none;
+}
+
+.icon-box {
+    width: 90px;
+    height: 90px;
+    background: #FFFAF0;
+    /* Floral White/Cream */
+    border-radius: 24px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    /* Ensure box sits on top of the line */
+    z-index: 2;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(224, 216, 195, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.process-card:hover .icon-box {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.08);
+    border-color: #d4c5a6;
+}
+
+/* Spotlight Glow Animation */
+.icon-box.glow-active {
+    animation: spotlightPulse 1.5s ease-in-out infinite;
+    border-color: #bfa588;
+}
+
+@keyframes spotlightPulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 20px rgba(191, 165, 136, 0.4),
+            0 0 40px rgba(191, 165, 136, 0.2),
+            0 10px 25px rgba(0, 0, 0, 0.03);
+    }
+
+    50% {
+        box-shadow:
+            0 0 30px rgba(191, 165, 136, 0.6),
+            0 0 60px rgba(191, 165, 136, 0.3),
+            0 0 80px rgba(191, 165, 136, 0.1),
+            0 10px 25px rgba(0, 0, 0, 0.03);
+    }
+}
+
+.icon-box i {
+    font-size: 2rem;
+    color: #bfa588;
+    /* Gold/Bronze Icon */
+    transition: color 0.3s ease;
+}
+
+.process-card:hover .icon-box i {
+    color: #3e574b;
+    /* Change to brand green on hover */
+}
+
+.step-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    width: 32px;
+    height: 32px;
+    background: #bfa588;
+    /* Gold/Bronze Badge */
+    color: white;
+    border-radius: 50%;
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid white;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 3;
+}
+
+.process-card h4 {
+    font-family: var(--font-heading);
+    color: #3e574b;
+    /* Brand Green */
+    font-size: 1.25rem;
+    margin-bottom: 0.8rem;
+}
+
+.process-card p {
+    font-size: 0.95rem;
+    color: #6d6d6d;
+    line-height: 1.6;
+    padding: 0 0.5rem;
+}
+
+/* Hide line on mobile */
+@media (max-width: 992px) {
+    /* ... existing tab logic ... */
+}
+
+
+
+/* --- Testimonials --- */
+.testimonials-section {
+    background-color: var(--color-accent-soft);
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.testimonial-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    text-align: center;
+    font-family: var(--font-heading);
+    font-size: 1.3rem;
+    color: #555;
+    position: relative;
+}
+
+.testimonial-card::before {
+    content: '"';
+    font-size: 4rem;
+    color: var(--color-peach);
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    font-family: serif;
+}
+
+.client-name {
+    margin-top: 1.5rem;
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-text-light);
+}
+
+/* --- Instagram --- */
+.insta-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+    position: relative;
+    z-index: 5;
+}
+
+.insta-subtitle {
+    font-family: var(--font-script);
+    font-size: 3.5rem;
+    color: var(--color-primary);
+    /* Gold */
+    line-height: 0.8;
+    display: block;
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 10px rgba(191, 165, 136, 0.2);
+}
+
+.insta-brand-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 0.8rem;
+}
+
+.insta-brand-row i {
+    font-size: 2rem;
+    /* Metallic Gradient for Icon */
+    background: linear-gradient(135deg, #d4af37 0%, #a67c00 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.insta-brand-row h3 {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    letter-spacing: 0.05em;
+    color: var(--color-text);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.insta-desc {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    color: var(--color-text-light);
+    max-width: 500px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+.btn-link {
+    display: none;
+    /* Hidden in favor of new layout */
+}
+
+
+
+.insta-item {
+    aspect-ratio: 1/1;
+    background-color: #eee;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.insta-item:hover {
+    opacity: 0.8;
+}
+
+/* --- Footer --- */
+.footer {
+    padding: 6rem 0 3rem;
+    /* Deep Brown with a subtle gradient overlay for depth */
+    background: linear-gradient(to bottom, #4a3f35, #3d332a);
+    color: #F8F5F2;
+    text-align: center;
+    position: relative;
+    border-top: 5px solid #3e574b;
+    overflow: hidden;
+}
+
+/* Subtle background pattern/texture effect */
+.footer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.1;
+    pointer-events: none;
+}
+
+.footer-brand {
+    margin-bottom: 2.5rem;
+}
+
+.footer-logo {
+    height: 65px;
+    width: auto;
+    margin-bottom: 1.5rem;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+}
+
+.footer-tagline {
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 450px;
+    margin: 0 auto;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
+
+.footer-social-section {
+    margin-bottom: 3.5rem;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45px;
+    height: 45px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    color: white;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.social-links a:hover {
+    background: white;
+    color: #4a3f35;
+    border-color: white;
+    transform: translateY(-3px);
+}
+
+.footer-divider {
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    margin-bottom: 2rem;
+}
+
+.footer-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    padding: 0 1rem;
+}
+
+.made-with i {
+    margin: 0 4px;
+    font-size: 0.8rem;
+}
+
+
+/* --- Dynamic Instagram Grid --- */
+.insta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.insta-item {
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background-color: var(--color-accent-soft);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.insta-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+}
+
+.insta-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.insta-item:hover img {
+    transform: scale(1.08);
+}
+
+
+
+/* --- Creative Footer Styles --- */
+.footer-creative {
+    background-color: var(--color-text);
+    /* #2C2C2C */
+    color: var(--color-bg);
+    position: relative;
+    padding-bottom: 2rem;
+    padding-top: 3rem;
+    margin-top: 0;
+    /* Removed large gap */
+}
+
+/* Static Wave Separator */
+.footer-wave {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: translateY(-99%);
+    z-index: 1;
+}
+
+.footer-wave svg {
+    display: block;
+    width: 100%;
+    height: 80px;
+}
+
+.footer-content-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.6fr 1.4fr;
+    /* Maximized space for Map/Contact */
+    gap: 3rem;
+    padding-top: 2rem;
+    padding-bottom: 4rem;
+}
+
+.footer-col.brand-col {
+    max-width: 350px;
+}
+
+.footer-logo {
+    filter: brightness(0) invert(1);
+    width: 180px;
+    margin-bottom: 1.5rem;
+}
+
+.footer-tagline {
+    font-size: 0.95rem;
+    opacity: 0.7;
+    line-height: 1.6;
+}
+
+.badge-handmade {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--color-primary);
+}
+
+.footer-col h4 {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    position: relative;
+}
+
+.footer-links a:hover {
+    color: var(--color-white);
+    transform: translateX(5px);
+}
+
+.btn-footer {
+    background: var(--color-primary);
+    color: var(--color-text);
+    border: none;
+    margin-bottom: 1.5rem;
+    display: inline-flex;
+    width: auto;
+}
+
+.btn-footer:hover {
+    background: var(--color-white);
+    transform: translateY(-3px);
+}
+
+.social-links-large {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links-large a {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.5);
+    transition: all 0.3s ease;
+}
+
+.social-links-large a:hover {
+    color: var(--color-primary);
+    transform: scale(1.1);
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    margin-top: 1rem;
+}
+
+.bottom-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.made-with i {
+    color: #e25555;
+    animation: heartbeat 1.5s infinite;
+}
+
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+/* Footer Responsive */
+@media (max-width: 900px) {
+    .footer-content-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+
+    .footer-col.brand-col {
+        margin: 0 auto;
+    }
+
+    .footer-logo {
+        margin: 0 auto 1.5rem;
+    }
+
+    .social-links-large {
+        justify-content: center;
+    }
+}
+
+/* --- Instagram Section Blend --- */
+.instagram-section {
+    position: relative;
+    /* Seamless blend from Testimonials (Soft Green) to Gallery (Off-White) */
+    background: linear-gradient(to bottom, var(--color-accent-soft) 0%, #fffbf2 20%, #fffbf2 100%);
+    padding-top: 4rem;
+    padding-bottom: 6rem;
+    margin-top: -1px;
+    /* Remove any pixel gap */
+    z-index: 2;
+}
+
+/* --- Creative Hanging Gallery --- */
+.insta-grid.hanging-gallery-container {
+    display: flex;
+    flex-wrap: nowrap;
+    /* Force 5 items in one row */
+    justify-content: center;
+    /* Center them if they fit */
+    align-items: flex-start;
+    gap: 1.5vw;
+    /* Responsive gap */
+    min-height: auto;
+    padding-top: 60px;
+    padding-bottom: 40px;
+    overflow-y: visible;
+    overflow-x: auto;
+    /* Allow scroll if screen is too small */
+    position: relative;
+    grid-template-columns: none;
+
+    /* Full Width & Centering */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+    padding-left: 2rem;
+    padding-right: 2rem;
+
+    background: transparent;
+    border: none;
+    box-shadow: none;
+
+    /* Hide Scrollbar */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.insta-grid.hanging-gallery-container::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hanging Animation */
+.hanging-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    /* ADAPTIVE WIDTH: Scale with screen to fit 5 in a row */
+    width: 16vw;
+    min-width: 160px;
+    /* Don't get too small */
+    max-width: 260px;
+    /* Don't get too big */
+
+    flex-shrink: 0;
+    transform-origin: top center;
+    /* Critical: Animation pivots from top */
+    margin-top: 0;
+
+    /* Hardware Acceleration */
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    will-change: transform;
+
+    /* Wind-blown sway animation */
+    animation: windSway var(--sway-duration, 6s) ease-in-out infinite;
+    animation-delay: var(--sway-delay, 0s);
+}
+
+/* Realistic wind-blown sway - asymmetric for natural feel */
+@keyframes windSway {
+    0% {
+        transform: rotate(-3deg) translateX(-2px) translateZ(0);
+    }
+
+    25% {
+        transform: rotate(4deg) translateX(3px) translateZ(0);
+    }
+
+    50% {
+        transform: rotate(-2deg) translateX(-1px) translateZ(0);
+    }
+
+    75% {
+        transform: rotate(5deg) translateX(4px) translateZ(0);
+    }
+
+    100% {
+        transform: rotate(-3deg) translateX(-2px) translateZ(0);
+    }
+}
+
+.hanging-rail {
+    position: absolute;
+    top: 52px;
+    /* Adjusted for 8px height (52+8=60) */
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 8px;
+    /* Premium Braided Gold with Metallic Sheen */
+    background:
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.4) 0%, transparent 40%, rgba(0, 0, 0, 0.2) 100%),
+        repeating-linear-gradient(45deg,
+            #d4af37,
+            /* Rich Gold */
+            #d4af37 3px,
+            #8e795d 4px,
+            /* Darker Bronze for contrast */
+            #8e795d 7px,
+            #d4af37 8px);
+    background-blend-mode: overlay, normal;
+    border-radius: 4px;
+    box-shadow:
+        0 4px 8px rgba(0, 0, 0, 0.2),
+        inset 0 1px 1px rgba(255, 255, 255, 0.5);
+    /* Highlight top edge */
+    z-index: 10;
+
+    /* Subtle Flow Animation */
+    background-size: 100% 100%, 24px 24px;
+    /* Gradient 1 (fixed), Gradient 2 (tiled) */
+    animation: rope-shimmer 60s linear infinite;
+}
+
+@keyframes rope-shimmer {
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: 0 0, 100% 0;
+    }
+}
+
+/* Disable sway AND Rope Animation during GSAP Flip to save resources */
+.insta-grid.is-animating .hanging-card {
+    animation: none !important;
+    transition: none !important;
+}
+
+.insta-grid.is-animating~.hanging-rail,
+/* If sibling */
+.hanging-rail.is-paused {
+    /* If I toggle class on rail */
+    animation-play-state: paused;
+}
+
+/* Since rail is sibling or child? Structure:
+   .insta-grid.hanging-gallery-container
+      .hanging-rail
+      .hanging-card...
+*/
+.insta-grid.is-animating .hanging-rail {
+    animation-play-state: paused;
+}
+
+/* .hanging-card:hover {
+    animation-play-state: paused;
+    transform: scale(1.1) rotate(0deg) !important;
+    z-index: 50;
+    filter: brightness(1.02);
+} */
+
+.chain {
+    width: 3px;
+    /* Silk Ribbon Logic */
+    background: #e3dcd2;
+    /* Satin Cream */
+    box-shadow: 1px 0 2px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+    margin-bottom: -2px;
+
+    /* Subtle chain flex animation */
+    animation: chainFlex var(--sway-duration, 6s) ease-in-out infinite;
+    animation-delay: var(--sway-delay, 0s);
+    transform-origin: top center;
+}
+
+/* Chain flexes slightly as card sways */
+@keyframes chainFlex {
+
+    0%,
+    100% {
+        transform: scaleY(1) translateX(0);
+    }
+
+    25% {
+        transform: scaleY(1.02) translateX(1px);
+    }
+
+    50% {
+        transform: scaleY(0.98) translateX(-1px);
+    }
+
+    75% {
+        transform: scaleY(1.01) translateX(1px);
+    }
+}
+
+.pin {
+    width: 16px;
+    height: 16px;
+    /* Pearl/Gold Pin Head */
+    background: radial-gradient(circle at 35% 35%, #ffffff, #e6e0d5, #bfa588);
+    border-radius: 50%;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.25);
+    position: absolute;
+    top: calc(var(--chain-height) - 8px);
+    z-index: 11;
+    border: 1px solid rgba(191, 165, 136, 0.3);
+}
+
+.frame-glass {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5;
+    border: 6px solid #fff;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(191, 165, 136, 0.5);
+    padding: 10px;
+    overflow: hidden;
+    margin-top: -5px;
+}
+
+.frame-glass::before {
+    content: '';
+    position: absolute;
+    inset: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    pointer-events: none;
+    z-index: 2;
+}
+
+.frame-glass img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.hanging-card:hover .frame-glass img {
+    transform: scale(1.05);
+}
+
+.gloss-reflection {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(125deg, rgba(255, 255, 255, 0.3) 0%, transparent 40%, rgba(255, 255, 255, 0.1) 100%);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.photo-caption {
+    margin-top: 15px;
+    background: #fff;
+    padding: 8px 16px;
+    border-radius: 4px;
+    /* Tag shape */
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--color-text);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(191, 165, 136, 0.3);
+
+    /* Always Visible */
+    opacity: 1;
+    transform: translateY(0);
+    position: relative;
+    z-index: 10;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect removed to prevent lag */
+/*
+.hanging-card:hover .photo-caption {
+    color: var(--color-primary);
+    box-shadow: 0 6px 15px rgba(191, 165, 136, 0.2);
+}
+*/
+
+/* Sway animation removed for smoothness */
+
+/* Responsive: Stack on mobile */
+@media (max-width: 900px) {
+    .insta-grid.hanging-gallery-container {
+        flex-wrap: wrap;
+        gap: 2rem;
+        padding-top: 20px;
+        min-height: auto;
+    }
+
+    .hanging-card {
+        width: 160px;
+        animation: none;
+        transform: rotate(0deg);
+        margin-bottom: 1rem;
+    }
+
+    .chain,
+    .hanging-rail,
+    .pin {
+        display: none;
+    }
+
+    .frame-glass {
+        margin-top: 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+}
+
+/* --- Aesthetic Footer Texture --- */
+.footer-creative {
+    background-color: #243b31;
+    background-image: url('../assets/footer_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: normal;
+    color: #f0ebe5;
+    position: relative;
+    overflow: hidden;
+    /* Contain overlay */
+    margin-top: -80px;
+    /* Pull wave up */
+    z-index: 1;
+}
+
+/* Dark Overlay for Text Readability */
+.footer-creative::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(36, 59, 49, 0.85);
+    /* Strong Moss Green Overlay */
+    z-index: 0;
+}
+
+/* Ensure content sits above overlay */
+.footer-creative .container,
+.footer-creative .footer-bottom,
+.footer-creative .wave-shape-divider {
+    position: relative;
+    z-index: 1;
+}
+
+.footer-logo {
+    width: 350px !important;
+    /* Larger per request */
+    height: auto !important;
+    margin-bottom: 2rem;
+    display: inline-block;
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+}
+
+/* --- FINAL FOOTER LAYOUT FIX (ROBUST) --- */
+
+/* Reset Section to Normal */
+.instagram-section {
+    padding-bottom: 0 !important;
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(to bottom, var(--color-accent-soft), #fffbf2);
+}
+
+/* Footer Container: Green + Image */
+.footer-creative {
+    background-color: #243b31;
+    background-image: url('../assets/footer_bg.png');
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: normal;
+    color: #f0ebe5;
+    position: relative;
+    z-index: 1;
+    margin-top: 0 !important;
+    /* Reset pull */
+    padding-top: 0 !important;
+    /* Reset padding */
+    overflow: hidden;
+}
+
+/* 
+   Wave Divider acts as a "Mask".
+   Background matches the Section Above (#fffbf2).
+   This covers the Green Footer background at the top.
+   The SVG (Green) then draws the transition.
+*/
+.footer-creative .footer-wave {
+    position: relative;
+    /* Normal flow */
+    transform: none !important;
+    /* Reset legacy style */
+    top: -1px;
+    /* Fix sub-pixel gaps */
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: transparent;
+    /* Changed to Transparent to let texture show */
+    overflow: hidden;
+    line-height: 0;
+    z-index: 5;
+}
+
+.footer-creative .footer-wave svg {
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 100%;
+}
+
+/* Content Padding */
+.footer-content-grid {
+    padding-top: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+/* Fix Overlay - applied to whole footer, but effectively behind mask */
+.footer-creative::before {
+    top: 0 !important;
+    /* Overlay covers everything, but Mask is z-index 5, Overlay z-index 0? */
+}
+
+/* No, Overlay is on .footer-creative::before (abs).
+   Wave Divider is child (z:5).
+   So Wave stays White. Good.
+*/
+.footer-creative::after {
+    display: none;
+    /* Remove previous patch */
+}
+
+/* --- FIX 4 & STABILITY: Prevent transform shifts --- */
+#smooth-wrapper,
+#smooth-content {
+    transform: none !important;
+}
+
+.hero {
+    margin-top: 0 !important;
+}
+
+/* --- Consolidated Mobile Responsiveness (max-width: 768px) --- */
+@media (max-width: 768px) {
+
+    /* Hero & Nav */
+    .hero {
+        min-height: calc(100vh - var(--nav-height));
+        min-height: calc(100dvh - var(--nav-height));
+        padding: 2rem 1.5rem;
+        margin-top: var(--nav-height);
+        justify-content: center;
+    }
+
+    .hero-content {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
+
+    .hero-title {
+        font-size: 3rem;
+    }
+
+    .hero-title .highlight {
+        margin-left: 0;
+    }
+
+    .hero-desc {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero-btns {
+        justify-content: center;
+    }
+
+    .shape-3d-gold,
+    .shape-3d-glass {
+        display: none;
+    }
+
+    .nav-links {
+        display: none;
+    }
+
+    .section {
+        padding: var(--spacing-lg) 0;
+    }
+
+    /* Modal */
+    .modal-body {
+        flex-direction: column;
+    }
+
+    .modal-image-col {
+        height: 250px;
+        flex: none;
+    }
+
+    .modal-info-col {
+        padding: 1.5rem;
+    }
+
+    /* Process Steps */
+    .process-steps {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .process-card::after {
+        display: none;
+    }
+
+    .process-card {
+        padding: 0;
+    }
+
+    .icon-box {
+        width: 80px;
+        height: 80px;
+        border-radius: 20px;
+    }
+
+    /* Misc / Custom Layouts */
+    .custom-layout {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .insta-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .marquee-item {
+        font-size: 2.5rem;
+    }
+
+    /* Footer */
+    .footer-bottom-row {
+        flex-direction: column;
+        gap: 1rem;
+    }
+}
+
+/* --- Address Card Design --- */
+.footer-address-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+.footer-address-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(191, 165, 136, 0.3);
+    transform: translateY(-2px);
+}
+
+.address-icon {
+    background: rgba(191, 165, 136, 0.1);
+    color: var(--color-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.address-details {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.location-name {
+    font-family: var(--font-heading);
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+}
+
+.street-info {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+}
+
+.city-pin {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.5);
+    margin-top: 4px;
+    font-weight: 500;
+}
+
+/* --- Premium CTA Button (Liquid Gold) --- */
+.btn-premium-cta {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1.2rem 3.5rem;
+    background: #2C2C2C;
+    /* Dark base */
+    color: #bfa588;
+    /* Gold Text */
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 100px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    border: 1px solid rgba(191, 165, 136, 0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    text-decoration: none;
+    z-index: 1;
+}
+
+.btn-premium-cta .cta-content {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.btn-premium-cta i {
+    font-size: 1.2rem;
+    transition: transform 0.4s ease;
+}
+
+/* Hover State */
+.btn-premium-cta:hover {
+    color: #2C2C2C;
+    /* Text becomes dark */
+    border-color: #bfa588;
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(191, 165, 136, 0.3);
+}
+
+.btn-premium-cta:hover i {
+    transform: rotate(15deg) scale(1.2);
+}
+
+/* Liquid Fill Animation */
+.cta-liquid {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 200%;
+    height: 200%;
+    background: #bfa588;
+    /* Gold Liquid */
+    border-radius: 40%;
+    transform: translate(-50%, -50%) translateY(100%) rotate(0deg);
+    transition: transform 0.6s cubic-bezier(0.5, 0, 0, 1);
+    z-index: 1;
+}
+
+.btn-premium-cta:hover .cta-liquid {
+    transform: translate(-50%, -50%) translateY(0) rotate(45deg);
+}
+
+/* Glow Effect */
+.cta-glow {
+    position: absolute;
+    inset: -5px;
+    border-radius: 100px;
+    background: linear-gradient(45deg, transparent, rgba(191, 165, 136, 0.5), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 0;
+    animation: border-glow 2s infinite linear;
+}
+
+.btn-premium-cta:hover .cta-glow {
+    opacity: 1;
+}
+
+@keyframes border-glow {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Unified Footer Action Bar --- */
+.footer-action-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.btn-premium-cta.btn-footer-compact {
+    padding: 0.8rem 2rem;
+    font-size: 1.1rem;
+    flex-grow: 1;
+    /* Take available spotlight */
+    text-align: center;
+}
+
+.social-links-compact {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.social-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-primary);
+    font-size: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-btn:hover {
+    background: var(--color-primary);
+    color: #2C2C2C;
+    border-color: var(--color-primary);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(191, 165, 136, 0.3);
+}
+
+/* Mobile responsive for action row */
+@media (max-width: 500px) {
+    .footer-action-row {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-premium-cta.btn-footer-compact {
+        width: 100%;
+    }
+
+    .social-links-compact {
+        width: 100%;
+        justify-content: center;
+        gap: 1.5rem;
+    }
+}
+
+/* --- Footer Map Integration (Dark Gold Filter) --- */
+.footer-address-card {
+    flex-wrap: wrap;
+    padding-bottom: 0.5rem;
+}
+
+.map-frame {
+    width: 100%;
+    height: 180px;
+    /* Increased height for better visibility */
+    margin-top: 1rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(191, 165, 136, 0.2);
+    /* Subtle Gold Border */
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    position: relative;
+    background: #2C2C2C;
+    /* loading background */
+}
+
+.map-frame iframe {
+    width: 100%;
+    height: 100%;
+    opacity: 0.85;
+    transition: opacity 0.3s ease;
+}
+
+.footer-address-card:hover .map-frame iframe {
+    opacity: 1;
+}
+
+/* --- Touch Device Optimizations (Graceful Degradation) --- */
+.touch-device .cursor-dot,
+.touch-device .cursor-spotlight {
+    display: none !important;
+}
+
+.touch-device .btn,
+.touch-device .magnetic-btn {
+    transform: none !important;
+    /* Disable magnetic hover effects */
+}
+
+.touch-device .hanging-card {
+    animation: none !important;
+    /* Reduce battery drain from continuous sway */
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .wave-layer {
+        animation: none !important;
+    }
+}
+
+.modal-image-col {
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background-color: #f9f5f0;
+    /* Match typical image bg */
+    overflow: hidden;
+    border-radius: var(--radius-md) 0 0 var(--radius-md);
+    /* Match modal style */
+}
+
+/* --- Album Styles --- */
+.album-indicator {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary-color);
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 5;
+}
+
+.album-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.album-nav:hover {
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.album-nav.prev {
+    left: 15px;
+}
+
+.album-nav.next {
+    right: 15px;
+}
+
+.album-counter {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    z-index: 10;
+}
+
+
+.occasion-grid::-webkit-scrollbar {
+    display: none;
+}
+
+/* === INTERSTELLAR GIFT TUNNEL === */
+.tunnel-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--color-bg) 0%, #1a1a2e 100%);
+    perspective: 1000px;
+    perspective-origin: 50% 50%;
+}
+
+.tunnel-container {
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tunnel-item {
+    position: absolute;
+    width: 280px;
+    height: 380px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), 0 0 40px rgba(191, 165, 136, 0.2);
+    cursor: pointer;
+    transition: box-shadow 0.4s ease;
+    backface-visibility: hidden;
+}
+
+.tunnel-item:hover {
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5), 0 0 60px rgba(191, 165, 136, 0.4);
+}
+
+.tunnel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tunnel-item .tunnel-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 1.5rem 1.5rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent);
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 500;
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+}
+
+.tunnel-item:hover .tunnel-label {
+    transform: translateY(0);
+}
+
+.tunnel-section .section-header {
+    position: relative;
+    z-index: 10;
+    padding-top: 3rem;
+}
+
+.tunnel-section .section-header h2 {
+    color: white;
+}
+
+.tunnel-section .section-tag {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Starfield particles for tunnel */
+.starfield {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.6;
+    animation: starMove 8s linear infinite;
+}
+
+@keyframes starMove {
+    0% {
+        transform: translateZ(-1000px) scale(0.1);
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.6;
+    }
+
+    90% {
+        opacity: 0.6;
+    }
+
+    100% {
+        transform: translateZ(500px) scale(2);
+        opacity: 0;
+    }
+}
+
+/* === PREMIUM MARQUEE STRIP === */
+.marquee-section {
+    padding: 4rem 0;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--color-bg) 0%, #faf8f5 100%);
+}
+
+.marquee-wrapper {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 2rem 0;
+    mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+    animation: marqueeScroll 40s linear infinite;
+}
+
+.marquee-wrapper:hover .marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.marquee-card {
+    flex-shrink: 0;
+    width: 300px;
+    height: 400px;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+}
+
+.marquee-card:hover {
+    transform: scale(1.05) translateY(-10px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15), 0 0 30px rgba(191, 165, 136, 0.2);
+}
+
+.marquee-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.marquee-card:hover img {
+    transform: scale(1.1);
+}
+
+.marquee-label {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0.6rem 1.5rem;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50px;
+    color: white;
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    transition: transform 0.3s ease, background 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.marquee-card:hover .marquee-label {
+    background: rgba(255, 255, 255, 0.35);
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Glow effect on cards */
+.marquee-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-md);
+    padding: 2px;
+    background: linear-gradient(135deg, rgba(191, 165, 136, 0.3), transparent, rgba(191, 165, 136, 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+}
+
+.marquee-card:hover::before {
+    opacity: 1;
+}
+
+/* ============================================================================
+   NUCLEAR OPTION - WHITE GAP FIX
+   ============================================================================ */
+
+/* Step 1: Force body/html to have no gaps */
+html,
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow-x: hidden !important;
+    min-height: 100%;
+    /* NOT height:100% — that caps scrollable area and breaks GSAP pin-spacer */
+}
+
+/* Hide native scrollbar when Lenis is active */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+
+html {
+    scrollbar-width: none;
+    /* Firefox */
+}
+
+html::-webkit-scrollbar {
+    display: none;
+    /* Chrome/Safari/Edge */
+}
+
+/* GSAP ScrollTrigger pin-spacer compatibility */
+.pin-spacer {
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Step 2: Disable Lenis wrapper transforms (they cause gaps) */
+html[data-lenis-prevent],
+html.lenis {
+    overflow: auto !important;
+}
+
+[data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+
+/* Step 3: Force main and particles-container to not create gaps */
+.particles-container {
+    position: fixed !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+    z-index: 0 !important;
+    overflow: hidden !important;
+}
+
+main {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+}
+
+/* Step 4: CRITICAL - Force navbar height and position */
+.navbar {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: var(--nav-height) !important;
+    margin: 0 !important;
+    z-index: 100 !important;
+    transform: translateZ(0) !important;
+}
+
+/* Step 5: HERO STORY - Full viewport positioning */
+/* NOTE: Do NOT set position or transform !important — GSAP needs to control these for pinning */
+.hero-story {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    z-index: 1 !important;
+}
+
+/* Step 6: Remove ALL section margins */
+.section,
+section,
+.marquee-section,
+.gallery-section,
+.featured-section,
+.custom-section,
+.testimonials-section,
+.instagram-section {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Step 7: Force sections to touch each other (negative overlap) */
+.hero-story+.section,
+.hero-story+.marquee-section {
+    margin-top: -3px !important;
+}
+
+.section+.section,
+.marquee-section+.gallery-section,
+.gallery-section+.featured-section,
+.featured-section+.custom-section,
+.custom-section+.testimonials-section,
+.testimonials-section+.instagram-section {
+    margin-top: -3px !important;
+}
+
+/* Step 8: Instagram to Footer - AGGRESSIVE overlap */
+.instagram-section {
+    padding-bottom: 0 !important;
+    margin-bottom: -5px !important;
+}
+
+/* Step 9: Footer - Pull it up HARD */
+.footer-creative {
+    margin-top: -5px !important;
+    padding-top: 0 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+/* Step 10: Footer wave - Make it wider to cover any edge gaps */
+.footer-creative .footer-wave {
+    position: relative !important;
+    top: -3px !important;
+    left: -3px !important;
+    width: calc(100% + 6px) !important;
+    margin-bottom: -3px !important;
+    overflow: hidden !important;
+}
+
+.footer-creative .footer-wave svg {
+    display: block !important;
+    width: calc(100% + 6px) !important;
+    height: 150px !important;
+    transform: translateZ(0) !important;
+}
+
+/* Step 11: Mobile specific fixes */
+@media (max-width: 768px) {
+    .hero-story {
+        height: 100dvh !important;
+        height: 100vh !important;
+    }
+
+    .navbar {
+        height: 65px !important;
+    }
+}
+
+/* Step 12: Prevent gaps — GSAP-safe (no backface on hero-story) */
+section,
+.section,
+.footer-creative {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+}
+
+/* Step 13: If there's STILL a gap, this will paint over it */
+.hero-story::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -10px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 10px !important;
+    background-color: #1a1613 !important;
+    z-index: -1 !important;
+}
+
+/* Step 14: Cover any gap between sections with pseudo-elements */
+.section::before,
+.marquee-section::before,
+.gallery-section::before {
+    content: '' !important;
+    position: absolute !important;
+    top: -5px !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 5px !important;
+    background: inherit !important;
+    z-index: -1 !important;
+}
+
+/* Step 15: LAST RESORT - If Lenis creates wrapper */
+#smooth-wrapper,
+#smooth-content,
+[data-scroll-container] {
+    transform: none !important;
+    -webkit-transform: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: static !important;
+}
+
+/* ============================================================================
+   END NUCLEAR FIX
+   ============================================================================ */
+
+/* ===================================================================
+   PRELOADER - Fluid Curtain Rise
+   =================================================================== */
+.preloader-curtain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #1a1613;
+    z-index: 99999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    will-change: transform;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* The SVG Wave Container */
+.preloader-wave {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: auto;
+    line-height: 0;
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+    bottom: -148px;
+    /* Slightly adjusted to prevent gap */
+    z-index: 99999;
+    pointer-events: none;
+    backface-visibility: hidden;
+}
+
+.preloader-wave svg {
+    display: block;
+    width: 100%;
+    height: 150px;
+    transform: scale(1.01);
+    /* Prevent sub-pixel cracks */
+}
+
+.preloader-wave path {
+    fill: #1a1613;
+}
+
+/* Brand Reveal Phase */
+.hs-brand {
+    position: absolute;
+    top: 42%;
+    /* Moved up from 50% for better visual centering */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    /* Ensure full width for centering */
+    text-align: center;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+}
+
+.hs-brand-logo {
+    width: 180px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.8);
+    filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.4));
+}
+
+.hs-brand-script {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 5.5rem !important;
+    /* Force Huge */
+    font-style: normal;
+    color: #d4af37;
+    opacity: 0;
+    transform: translateY(20px);
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+/* Responsive adjustment for huge text */
+@media (max-width: 768px) {
+    .hs-brand-script {
+        font-size: 3rem !important;
+    }
+
+    .hs-brand-logo {
+        width: 140px;
+    }
+}
+
+.preloader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+}
+
+.preloader-logo-main {
+    width: 160px;
+    height: auto;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.preloader-progress-bar {
+    width: 200px;
+    height: 2px;
+    background-color: rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.preloader-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 100%;
+    background-color: #d4af37;
+}
+
+/* ===================================================================
+   CRITICAL GAP FIX FOR MARQUEE
+   =================================================================== */
+/* Force Marquee Section to overlap slightly with Hero */
+.marquee-section {
+    position: relative;
+    z-index: 20;
+    margin-top: -2px !important;
+    padding-top: var(--spacing-lg);
+    background-color: var(--color-bg);
+    will-change: transform;
+}
+
+/* Ensure the marquee track doesn't cause overflow */
+.marquee-wrapper {
+    position: relative;
+    z-index: 21;
+}
+
+@media (max-width: 768px) {
+    .preloader-logo-main {
+        width: 120px;
+    }
+
+    .logo-img {
+        height: 50px !important;
+    }
+
+    .marquee-section {
+        margin-top: -5px !important;
+    }
+}
+
+/* ===================================================================
+   MOBILE RESPONSIVENESS REFINEMENTS (Use-Case Specific)
+   =================================================================== */
+@media (max-width: 768px) {
+
+    /* --- 1. HERO SECTION FIXES --- */
+    /* Prevent clipping of "Sakina Dahodwala" on small screens */
+    .hs-brand {
+        width: 100%;
+        padding: 0 10px;
+        box-sizing: border-box;
+    }
+
+    .hs-brand-script {
+        /* Use viewport units to ensure it fits width */
+        font-size: clamp(1.8rem, 9vw, 3.5rem) !important;
+        white-space: nowrap;
+        overflow: visible;
+        /* Ensure swipes don't clip */
+        line-height: 1.2;
+    }
+
+    .hs-brand-logo {
+        /* Slightly smaller logo to give text more room vertically */
+        width: 110px;
+    }
+
+    /* --- 2. STORY SECTION ALIGNMENT --- */
+    /* Center the Story Text properly */
+    .hs-text {
+        width: 90%;
+        left: 5%;
+        text-align: center;
+    }
+
+    .hs-line {
+        /* Adjust story text size for readability */
+        font-size: clamp(2.2rem, 6vw, 4rem);
+    }
+
+    /* Adjust the Golden Thread SVG to be more visible/centered in portrait */
+    .hs-thread {
+        transform: scale(1.4) translateY(5%);
+        transform-origin: center center;
+        opacity: 0.5;
+        /* Fade slightly so text pops */
+    }
+
+    /* Reposition floating elements to not overlap text */
+    .hs-el-1 {
+        top: 15%;
+        left: 5%;
+    }
+
+    .hs-el-2 {
+        top: 18%;
+        right: 5%;
+    }
+
+    .hs-el-3 {
+        top: 65%;
+        left: 5%;
+    }
+
+    .hs-el-4 {
+        top: 70%;
+        right: 5%;
+    }
+
+    .hs-el-5 {
+        top: 40%;
+        left: 2%;
+        transform: scale(0.8);
+    }
+
+    /* Smaller on edges */
+    .hs-el-6 {
+        top: 45%;
+        right: 2%;
+        transform: scale(0.8);
+    }
+
+    /* --- 3. GALLERY FILTERS LAYOUT --- */
+    .gallery-filters {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.6rem;
+        /* Tighter gap */
+        margin-bottom: 2rem;
+        padding: 0 1rem;
+    }
+
+    .filter-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+        flex: 0 1 auto;
+        /* Allow shrink if needed, but prefer auto */
+        white-space: nowrap;
+        margin: 0;
+    }
+}
